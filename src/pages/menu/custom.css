@@ -1,0 +1,72 @@
+/* Estilos personalizados */
+body {
+    font-family: 'Inter', sans-serif;
+  }
+  
+  .ant-layout-sider {
+    background-color: rgba(255, 255, 255, 0.3) !important;
+    backdrop-filter: blur(10px) !important;
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .ant-layout-header {
+    background-color: rgba(255, 255, 255, 0.3) !important;
+    backdrop-filter: blur(10px) !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .ant-layout-content {
+    background-color: rgba(255, 255, 255, 0.3) !important;
+    backdrop-filter: blur(10px) !important;
+    border-radius: 16px;
+  }
+  
+  /* Aumentar la especificidad para sobrescribir los estilos de Ant Design */
+  .custom-menu .ant-menu-item {
+    color: #333 !important;
+    width: 100%;
+    flex-grow: 1;
+  }
+  
+  .custom-menu .ant-menu-item:hover {
+    color: #198754 !important;
+  }
+  
+  .custom-menu .ant-menu-item-selected {
+    color: #fff !important;
+    background-color: #198754 !important;
+  }
+  
+  .custom-header .text-gray-700 {
+    color: #333 !important;
+  }
+  
+  .custom-header .text-gray-500 {
+    color: #aaa !important;
+  }
+  
+  .custom-menu-item .anticon {
+    vertical-align: middle;
+  }
+  
+  /* Icono de Cerrar Sesión en la parte inferior */
+  .custom-menu-item-logout {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+  }
+  
+  /* Estilo para el Dropdown de notificaciones */
+  .ant-list-item {
+    padding: 10px 15px !important;
+  }
+  
+  .ant-list-item-meta-title {
+    font-weight: bold;
+  }
+  
+  .ant-list-item-meta-description > div {
+    margin-top: 4px;
+  }
+  

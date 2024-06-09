@@ -1,0 +1,20 @@
+/* Estilos personalizados */
+.ant-form-item-label > label {
+  font-weight: 700;
+  color: #333;
+}
+
+.ant-btn-primary {
+  background-color: #00b96b !important;
+  border-color: #00b96b !important;
+}
+
+.ant-btn-primary:hover {
+  background-color: #00a563 !important;
+  border-color: #00a563 !important;
+}
+
+.ant-btn-primary:focus {
+  background-color: #009d5b !important;
+  border-color: #009d5b !important;
+}
