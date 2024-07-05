@@ -13,10 +13,9 @@ const Login: React.FC = () => {
       console.log('Autenticando usuario:', values.username);
       const authData = await pb.collection('users').authWithPassword(values.username, values.password);
       message.success('Inicio de sesión exitoso');
-      localStorage.setItem('authToken', authData.token);
-      localStorage.setItem('userRecord', JSON.stringify(authData.record));
-      console.log(authData);
-      navigate('/dashboard');
+      await localStorage.setItem('authToken', authData.token);
+      await localStorage.setItem('userRecord', JSON.stringify(authData.record));
+      navigate('/dashboard'); // Navegar inmediatamente después del inicio de sesión
     } catch (error) {
       console.error('Error al iniciar sesión:', error);
       message.error('Error al iniciar sesión: ' + (error as Error).message);

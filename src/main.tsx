@@ -15,7 +15,7 @@ const Main: React.FC = () => {
       <Routes>
         <Route path="/" element={isAuthenticated ? <Navigate to="/dashboard" /> : <Navigate to="/login" />} />
         <Route path="/login" element={isAuthenticated ? <Navigate to="/dashboard" /> : <Login />} />
-        <Route path="/dashboard/*"  element={!isAuthenticated ? <Navigate to="/login" /> : <Dashboard />} />
+        <Route path="/dashboard/*"  element={isAuthenticated ? <Navigate to="/login" /> : <Dashboard />} />
         <Route path="/home" element={<ProtectedRoute />}>
           <Route path="/home" element={<App />} />
         </Route>
