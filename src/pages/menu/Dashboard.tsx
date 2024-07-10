@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Layout, Menu, Avatar, Button, Dropdown, Space, Badge, Input, List } from 'antd';
 import {
   MenuUnfoldOutlined,
@@ -24,13 +24,25 @@ import Roles from './Roles';
 import Settings from './Settings';
 import AddFile from './AddFile';
 import FolderView from '../../components/FolderView';
+import pb from '../../pocketbase';
 
 const { Header, Sider, Content } = Layout;
 const { Search } = Input;
 
 const Dashboard: React.FC = () => {
   const [collapsed, setCollapsed] = useState(true);
+  const [avatarUrl, setAvatarUrl] = useState<string>('');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Obtener el usuario desde el almacenamiento local
+    const userRecord = JSON.parse(localStorage.getItem('userRecord') || '{}');
+    if (userRecord && userRecord.id) {
+      // Obtener el avatar del usuario desde PocketBase
+      const avatarUrl = `https://pocketbase-production-451f.up.railway.app/api/files/_pb_users_auth_/${userRecord.id}/${userRecord.avatar}?token=${pb.authStore.token}`;
+      setAvatarUrl(avatarUrl);
+    }
+  }, []);
 
   const toggle = () => {
     setCollapsed(!collapsed);
@@ -99,13 +111,13 @@ const Dashboard: React.FC = () => {
   );
 
   return (
-    <Layout style={{ minHeight: '100vh', height: '100vh'}}>
+    <Layout style={{ minHeight: '100vh', height: '100vh' }}>
       <Sider
         trigger={null}
         collapsible
         collapsed={collapsed}
         className="h-auto overflow-auto"
-        style={{ backgroundColor: 'rgba(255, 255, 255, 0.3)', backdropFilter: 'blur(10px)', borderRight: '1px solid rgba(0, 0, 0, 0.1)', boxShadow: '2px 0 5px rgba(0,0,0,0.1)', width:'15vw' }}
+        style={{ backgroundColor: 'rgba(255, 255, 255, 0.3)', backdropFilter: 'blur(10px)', borderRight: '1px solid rgba(0, 0, 0, 0.1)', boxShadow: '2px 0 5px rgba(0,0,0,0.1)', width: '15vw' }}
       >
         <div className="logo text-center py-6">
           <img src="https://univerperu.com/wp-content/uploads/2023/07/Universidad-Nacional-de-San-Martin-UNSM.png" alt="Logo" className="h-10 mx-auto" />
@@ -133,8 +145,6 @@ const Dashboard: React.FC = () => {
           <Menu.Item key="5" icon={<SafetyOutlined />} className="custom-menu-item flex-1">
             <Link to="/dashboard/roles" className="text-gray-700 w-full flex items-center">Roles</Link>
           </Menu.Item>
-         
-     
           <Menu.Item key="8" icon={<LogoutOutlined />} className="custom-menu-item flex-1 custom-menu-item-logout" onClick={handleLogout}>
             Cerrar sesión
           </Menu.Item>
@@ -161,7 +171,7 @@ const Dashboard: React.FC = () => {
               </Badge>
             </Dropdown>
             <Dropdown overlay={userMenu} trigger={['click']}>
-              <Avatar size="large" src="https://i.pinimg.com/564x/0e/e8/be/0ee8bed37d53b29073e4199b38f4aef6.jpg" className="cursor-pointer" />
+              <Avatar size="large" src={avatarUrl} className="cursor-pointer" />
             </Dropdown>
           </div>
         </Header>
@@ -174,8 +184,7 @@ const Dashboard: React.FC = () => {
             <Route path="/settings" element={<Settings />} />
             <Route path="/add-file" element={<AddFile />} />
             <Route path="/files" element={<Files />} />
-          <Route path="/files/:folderName" element={<FolderView />} /> {/* Ruta dinámica */}
-
+            <Route path="/files/:folderName" element={<FolderView />} /> {/* Ruta dinámica */}
           </Routes>
         </Content>
       </Layout>
