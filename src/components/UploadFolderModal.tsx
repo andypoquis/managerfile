@@ -16,9 +16,8 @@ const UploadFolderModal: React.FC<{ visible: boolean, onClose: () => void }> = (
     const data = {
       name: values.name,
       file: [],
-      shared: userId, // Agregar el ID del usuario logueado al array de shared
-      shared_folder:[ userId], // Agregar el ID del usuario logueado al array de shared
-
+      shared: [userId], // Asegurarse de que shared es un array
+     
     };
 
     try {

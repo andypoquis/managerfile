@@ -133,13 +133,8 @@ const Dashboard: React.FC = () => {
           <Menu.Item key="5" icon={<SafetyOutlined />} className="custom-menu-item flex-1">
             <Link to="/dashboard/roles" className="text-gray-700 w-full flex items-center">Roles</Link>
           </Menu.Item>
-          <Menu.Item key="6" icon={<SettingOutlined />} className="custom-menu-item flex-1">
-            <Link to="/dashboard/settings" className="text-gray-700 w-full flex items-center">Configuración</Link>
-          </Menu.Item>
-          <Menu.Divider />
-          <Menu.Item key="7" icon={<PlusOutlined />} className="custom-menu-item flex-1">
-            <Link to="/dashboard/add-file" className="text-gray-700 w-full flex items-center">Agregar</Link>
-          </Menu.Item>
+         
+     
           <Menu.Item key="8" icon={<LogoutOutlined />} className="custom-menu-item flex-1 custom-menu-item-logout" onClick={handleLogout}>
             Cerrar sesión
           </Menu.Item>
