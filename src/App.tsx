@@ -2,6 +2,8 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Dashboard from './pages/menu/Dashboard';
 import { ConfigProvider, App as AntdApp } from 'antd'; // Importa el componente App de Ant Design
+import Files from './pages/menu/Files';
+import FolderView from './components/FolderView';
 
 const App: React.FC = () => {
   return (
@@ -22,9 +24,7 @@ const App: React.FC = () => {
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/my-files" element={<Dashboard />} />
-            <Route path="/shared" element={<Dashboard />} />
-            <Route path="/recent" element={<Dashboard />} />
-            <Route path="/settings" element={<Dashboard />} />
+           
           </Routes>
         </Router>
       </AntdApp>

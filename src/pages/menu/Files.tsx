@@ -1,5 +1,5 @@
-// src/pages/files/Files.tsx
 import React, { useEffect, useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import pb from '../../pocketbase';
 import { List, message, Card, Col, Row, Dropdown, Button, Menu } from 'antd';
 import { FolderOutlined, FileOutlined, MoreOutlined, UploadOutlined } from '@ant-design/icons';
@@ -32,6 +32,7 @@ interface FolderRecord {
 }
 
 const Files: React.FC = () => {
+  const navigate = useNavigate();
   const [files, setFiles] = useState<FileRecord[]>([]);
   const [folders, setFolders] = useState<FolderRecord[]>([]);
   const [recentFiles, setRecentFiles] = useState<FileRecord[]>([]);
@@ -147,6 +148,10 @@ const Files: React.FC = () => {
     setShareFileModalVisible(true);
   };
 
+  const handleFolderClick = (folderName: string) => {
+    navigate(`/dashboard/files/${folderName}`);
+  };
+
   const fileMenu = (
     <Menu>
       {selectedRecord && 'collectionId' in selectedRecord ? (
@@ -167,7 +172,7 @@ const Files: React.FC = () => {
 
   const folderMenu = (
     <Menu>
-      <Menu.Item key="0">
+      <Menu.Item key="0" onClick={() => handleFolderClick(selectedRecord?.name || '')}>
         <a href="#">Abrir</a>
       </Menu.Item>
       <Menu.Item key="1">
@@ -225,7 +230,9 @@ const Files: React.FC = () => {
           Agregar nuevo archivo
         </Button>
       </div>
-      <UploadFileModal visible={uploadFileModalVisible} onClose={() => setUploadFileModalVisible(false)} />
+      <UploadFileModal visible={uploadFileModalVisible} onClose={() => setUploadFileModalVisible(false)} onUploadSuccess={function (fileId: string): void {
+        throw new Error('Function not implemented.');
+      } } />
       <UploadFolderModal visible={uploadFolderModalVisible} onClose={() => setUploadFolderModalVisible(false)} />
       <ShareFileModal
         visible={shareFileModalVisible}
@@ -237,7 +244,7 @@ const Files: React.FC = () => {
         <Row gutter={[16, 16]}>
           {folders.map(folder => (
             <Col key={folder.id} xs={24} sm={12} md={8} lg={6} onContextMenu={(e) => handleContextMenu(e, folder, 'folder')}>
-              <Card hoverable>
+              <Card hoverable onClick={() => handleFolderClick(folder.name)}>
                 <Card.Meta
                   avatar={<FolderOutlined style={{ fontSize: '32px', color: '#1890ff' }} />}
                   title={folder.name}
@@ -257,7 +264,7 @@ const Files: React.FC = () => {
                   title={<a href={getFileUrl(file)} target="_blank" rel="noopener noreferrer">{file.field}</a>}
                   description={`Actualizado: ${new Date(file.updated).toLocaleString()}`}
                 />
-                <Dropdown overlay={() => fileMenu} trigger={['click']} onVisibleChange={() => setSelectedRecord(file)}>
+                <Dropdown overlay={fileMenu} trigger={['click']} onVisibleChange={() => setSelectedRecord(file)}>
                   <Button type="text" icon={<MoreOutlined />} className="absolute top-2 right-2" />
                 </Dropdown>
               </Card>

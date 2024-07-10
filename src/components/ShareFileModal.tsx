@@ -1,3 +1,4 @@
+// src/components/ShareFileModal.tsx
 import React, { useEffect, useState } from 'react';
 import { Modal, Button, List, Checkbox, message } from 'antd';
 import pb from '../pocketbase';

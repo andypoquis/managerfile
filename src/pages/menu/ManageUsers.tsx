@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { List, Button, message, Avatar, Modal, Form, Input, Select, Upload } from 'antd';
 import { EditOutlined, DeleteOutlined, UserAddOutlined, UploadOutlined } from '@ant-design/icons';
-import pb from '../../pocketbase';
+import PocketBase from 'pocketbase';
+
+const pb = new PocketBase('https://pocketbase-production-451f.up.railway.app');
 
 interface UserRecord {
   id: string;
@@ -25,6 +27,7 @@ const ManageUsers: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [userModalVisible, setUserModalVisible] = useState(false);
   const [selectedUser, setSelectedUser] = useState<UserRecord | null>(null);
+  const [fileList, setFileList] = useState<any[]>([]);
 
   const [form] = Form.useForm();
 
@@ -86,11 +89,13 @@ const ManageUsers: React.FC = () => {
   const handleEdit = (user: UserRecord) => {
     setSelectedUser(user);
     setUserModalVisible(true);
+    setFileList([]);
   };
 
   const handleNewUser = () => {
     setSelectedUser(null);
     setUserModalVisible(true);
+    setFileList([]);
   };
 
   const handleSubmit = async (values: any) => {
@@ -99,11 +104,12 @@ const ManageUsers: React.FC = () => {
       const formData = new FormData();
       formData.append('username', values.username);
       formData.append('email', values.email);
+      formData.append('emailVisibility', 'true');
       formData.append('name', values.name);
       formData.append('rol', values.rol);
 
-      if (values.avatar && values.avatar.fileList && values.avatar.fileList[0]) {
-        formData.append('avatar', values.avatar.fileList[0].originFileObj);
+      if (fileList.length > 0) {
+        formData.append('avatar', fileList[0].originFileObj);
       }
 
       if (selectedUser) {
@@ -142,7 +148,7 @@ const ManageUsers: React.FC = () => {
           renderItem={user => (
             <List.Item
               actions={[
-                <Button icon={<EditOutlined />} onClick={() => handleEdit(user)}>Editar</Button>,
+                //<Button icon={<EditOutlined />} onClick={() => handleEdit(user)}>Editar</Button>,
                 <Button icon={<DeleteOutlined />} onClick={() => handleDelete(user.id)}>Eliminar</Button>,
               ]}
             >
@@ -200,9 +206,14 @@ const ManageUsers: React.FC = () => {
             name="avatar"
             label="Foto de Perfil"
             valuePropName="fileList"
-            getValueFromEvent={(e: any) => (Array.isArray(e) ? e : e && e.fileList)}
+            getValueFromEvent={(e) => (Array.isArray(e) ? e : e && e.fileList)}
+            rules={[{ required: true, message: 'Por favor seleccione un archivo' }]}
           >
-            <Upload name="avatar" listType="picture" beforeUpload={() => false}>
+            <Upload
+              beforeUpload={() => false}
+              fileList={fileList}
+              onChange={({ fileList }) => setFileList(fileList)}
+            >
               <Button icon={<UploadOutlined />}>Seleccionar Foto</Button>
             </Upload>
           </Form.Item>

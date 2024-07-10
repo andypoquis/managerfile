@@ -1,4 +1,3 @@
-// src/components/UploadFolderModal.tsx
 import React, { useState } from 'react';
 import { Modal, Button, Form, Input, message } from 'antd';
 import pb from '../pocketbase';
@@ -9,10 +8,17 @@ const UploadFolderModal: React.FC<{ visible: boolean, onClose: () => void }> = (
 
   const handleCreateFolder = async (values: { name: string }) => {
     setLoading(true);
+
+    // Obtener el ID del usuario logueado desde el localStorage
+    const userRecord = JSON.parse(localStorage.getItem('userRecord') || '{}');
+    const userId = userRecord.id;
+
     const data = {
       name: values.name,
       file: [],
-      shared: [],
+      shared: userId, // Agregar el ID del usuario logueado al array de shared
+      shared_folder:[ userId], // Agregar el ID del usuario logueado al array de shared
+
     };
 
     try {

@@ -1,10 +1,10 @@
 // src/components/UploadFileModal.tsx
 import React, { useState } from 'react';
-import { Modal, Button, Form, Input, Upload, message } from 'antd';
+import { Modal, Button, Form, Upload, message } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import pb from '../pocketbase';
 
-const UploadFileModal: React.FC<{ visible: boolean, onClose: () => void }> = ({ visible, onClose }) => {
+const UploadFileModal: React.FC<{ visible: boolean, onClose: () => void, onUploadSuccess: (fileId: string) => void }> = ({ visible, onClose, onUploadSuccess }) => {
   const [fileList, setFileList] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
@@ -26,6 +26,7 @@ const UploadFileModal: React.FC<{ visible: boolean, onClose: () => void }> = ({ 
       message.success('Archivo subido exitosamente');
       form.resetFields();
       setFileList([]);
+      onUploadSuccess(record.id); // Llamar a la función de éxito con el ID del archivo creado
       onClose();
     } catch (error) {
       message.error('Error al subir el archivo: ' + (error as Error).message);

@@ -23,6 +23,7 @@ import ManageUsers from './ManageUsers';
 import Roles from './Roles';
 import Settings from './Settings';
 import AddFile from './AddFile';
+import FolderView from '../../components/FolderView';
 
 const { Header, Sider, Content } = Layout;
 const { Search } = Input;
@@ -172,12 +173,14 @@ const Dashboard: React.FC = () => {
         <Content className="site-layout-background h-auto" style={{ margin: '24px 16px', padding: 24, backgroundColor: 'rgba(255, 255, 255, 0.3)', backdropFilter: 'blur(10px)', borderRadius: '16px', overflow: 'auto' }}>
           <Routes>
             <Route path="/" element={<DashboardContent />} />
-            <Route path="/files" element={<Files />} />
             <Route path="/shared" element={<Shared />} />
             <Route path="/manage-users" element={<ManageUsers />} />
             <Route path="/roles" element={<Roles />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/add-file" element={<AddFile />} />
+            <Route path="/files" element={<Files />} />
+          <Route path="/files/:folderName" element={<FolderView />} /> {/* Ruta dinámica */}
+
           </Routes>
         </Content>
       </Layout>
