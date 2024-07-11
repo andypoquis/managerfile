@@ -164,8 +164,8 @@ const Files: React.FC = () => {
           </Menu.Item>
         </>
       ) : null}
-      <Menu.Item key="2">
-        <a href="#">Eliminar</a>
+         <Menu.Item key="2" onClick={() => handleFileDelete(selectedRecord!.id)}>
+        Eliminar
       </Menu.Item>
     </Menu>
   );
@@ -178,11 +178,22 @@ const Files: React.FC = () => {
       <Menu.Item key="1">
         <a href="#">Compartir</a>
       </Menu.Item>
-      <Menu.Item key="2">
-        <a href="#">Eliminar</a>
+      <Menu.Item key="2" onClick={() => handleFileDelete(selectedRecord!.id)}>
+        Eliminar
       </Menu.Item>
     </Menu>
   );
+
+  const handleFileDelete = async (fileId: string) => {
+    try {
+      await pb.collection('files').delete(fileId);
+      message.success('Archivo eliminado exitosamente');
+    } catch (error) {
+      message.error('Error al eliminar el archivo: ' + (error as Error).message);
+    }
+  };
+
+  
 
   const emptyMenu = (
     <Menu>
